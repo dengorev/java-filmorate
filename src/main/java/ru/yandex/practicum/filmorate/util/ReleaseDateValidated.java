@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 public class ReleaseDateValidated implements ConstraintValidator<ReleaseDate, LocalDate> {
     private LocalDate releaseDate;
+
     @Override
     public boolean isValid(LocalDate localDate, ConstraintValidatorContext constraintValidatorContext) {
         return localDate == null || !localDate.isBefore(releaseDate);
