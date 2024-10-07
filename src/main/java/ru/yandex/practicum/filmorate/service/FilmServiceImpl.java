@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -11,16 +12,11 @@ import java.util.List;
 
 @Slf4j
 @Service
-
+@RequiredArgsConstructor
 public class FilmServiceImpl implements FilmService {
     private final FilmStorage filmStorage;
     private final UserService userService;
     private int generatedId = 1;
-
-    public FilmServiceImpl(FilmStorage filmStorage, UserService userService) {
-        this.filmStorage = filmStorage;
-        this.userService = userService;
-    }
 
     @Override
     public Film save(Film film) {
@@ -39,7 +35,6 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public Film update(Film newFilm) {
-        log.info("Обновление фильма с id={}", newFilm.getId());
         Film oldFilm = filmStorage.getFilmById(newFilm.getId());
         oldFilm.setReleaseDate(newFilm.getReleaseDate());
         oldFilm.setDescription(newFilm.getDescription());
@@ -68,7 +63,7 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public Collection<Film> getPopular(int count) {
-        Comparator<Film> comparator = Comparator.comparing(Film::getLikeCount);
+        Comparator<Film> comparator = Comparator.comparingInt(x -> x.getLikes().size());
         return filmStorage.getAll().stream()
                 .sorted(comparator.reversed())
                 .limit(count)

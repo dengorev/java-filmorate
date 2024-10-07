@@ -12,7 +12,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    private ErrorResponse handleValidationException(final ValidationException e) {
+    private ErrorResponse handleValidationException(ValidationException e) {
         return new ErrorResponse(
                 "Возникла ошибка при валидации запроса",
                 e.getMessage()
@@ -21,7 +21,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    private ErrorResponse handleNotFound(final NotFoundException e) {
+    private ErrorResponse handleNotFound(NotFoundException e) {
         return new ErrorResponse(
                 "Ресурс не найден",
                 e.getMessage()
@@ -30,7 +30,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    private ErrorResponse exceptionHandler(final RuntimeException e) {
+    private ErrorResponse exceptionHandler(RuntimeException e) {
         return new ErrorResponse(
                 "Возникла ошибка",
                 e.getMessage()

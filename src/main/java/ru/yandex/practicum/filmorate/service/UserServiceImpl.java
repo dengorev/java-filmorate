@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
@@ -11,21 +12,15 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserStorage userStorage;
     private int generatedId = 1;
 
-    public UserServiceImpl(UserStorage userStorage) {
-        this.userStorage = userStorage;
-    }
-
     @Override
     public User save(User user) {
         if (user != null) {
-            log.info("Создание пользователя {}", user.getName());
-            if (user.getName() == null || user.getName().isBlank()) {
-                user.setName(user.getLogin());
-            }
+            validate(user);
             user.setId(generatedId);
             getNextId();
         }
@@ -34,18 +29,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-        log.info("Получение всех пользователей");
         return userStorage.getAll();
     }
 
     @Override
     public User update(User newUser) {
-        log.info("Обновление пользователя {}", newUser.getId());
         User oldUser = userStorage.getUserById(newUser.getId());
         oldUser.setLogin(newUser.getLogin());
-        if (newUser.getName().isEmpty()) {
-            oldUser.setName(newUser.getLogin());
-        }
+        validate(oldUser);
         oldUser.setName(newUser.getName());
         oldUser.setBirthday(newUser.getBirthday());
         oldUser.setEmail(newUser.getEmail());
@@ -67,7 +58,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getCommonFriends(int id, int otherId) {
-        log.info("Получение списка общих друзей пользователей c ID = {} и {}", id, otherId);
         Set<Integer> friendsOne = userStorage.getUserById(id).getFriends();
         Set<Integer> friendsTwo = userStorage.getUserById(otherId).getFriends();
         Set<Integer> collect = friendsOne.stream()
@@ -92,6 +82,12 @@ public class UserServiceImpl implements UserService {
         User userTwo = getUserById(userId);
         userOne.getFriends().remove(userId);
         userTwo.getFriends().remove(id);
+    }
+
+    private static void validate(User user) {
+        if (user.getName() == null || user.getName().isBlank()) {
+            user.setName(user.getLogin());
+        }
     }
 
     private int getNextId() {
