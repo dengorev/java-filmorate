@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.service.UserService;
+import ru.yandex.practicum.filmorate.service.user.UserService;
 
 import java.util.Collection;
 
@@ -40,31 +40,30 @@ public class UserController {
 
     @GetMapping("/{id}/friends")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<User> getFriends(@PathVariable("id") int id) {
+    public Collection<User> getFriends(@PathVariable("id") Integer id) {
         log.info("Получение друзей пользователя");
         return userService.getFriends(id);
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<User> getCommonFriends(@PathVariable("id") int id, @PathVariable("otherId") int otherId) {
+    public Collection<User> getCommonFriends(@PathVariable("id") Integer id, @PathVariable("otherId") Integer otherId) {
         log.info("Получение общих друзей пользователя");
         return userService.getCommonFriends(id, otherId);
     }
 
     @PutMapping("/{id}/friends/{friendId}")
     @ResponseStatus(HttpStatus.OK)
-    public void addFriend(@PathVariable("id") int id, @PathVariable("friendId") int userId) {
+    public void addFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer userId) {
         log.info("Добавление друга");
         userService.addFriend(id, userId);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
     @ResponseStatus(HttpStatus.OK)
-    public void removeFriend(@PathVariable("id") int id, @PathVariable("friendId") int userId) {
+    public void removeFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer userId) {
         log.info("Удаление друга");
         userService.removeFriend(id, userId);
-
     }
 }
 
