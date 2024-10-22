@@ -12,10 +12,12 @@ import java.util.List;
 public class GenreServiceImpl implements GenreService {
     private final GenreStorage genreStorage;
 
+    @Override
     public List<Genre> getAllGenres() {
         return genreStorage.getAllGenres();
     }
 
+    @Override
     public Genre getGenreById(Integer id) {
         return genreStorage.getGenreById(id);
     }

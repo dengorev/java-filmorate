@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -27,43 +28,44 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FilmDbStorageTest {
     private final UserDbStorage userStorage;
     private final FilmDbStorage filmStorage;
+    private  User user;
+    private  User user1;
+    private  User user2;
 
-    User user = User.builder()
-            .id(1)
-            .email("user1@email.ru")
-            .name("user1")
-            .login("user1login")
-            .birthday(LocalDate.of(1990, 1, 1))
-            .build();
+    @BeforeEach
+    void beforeEach() {
+        user = User.builder()
+                .id(1)
+                .email("user1@email.ru")
+                .name("user1")
+                .login("user1login")
+                .birthday(LocalDate.of(1990, 1, 1))
+                .build();
 
-    User user1 = User.builder()
-            .id(2)
-            .email("user2@email.ru")
-            .name("user2")
-            .login("user2login")
-            .birthday(LocalDate.of(1994, 2, 1))
-            .build();
+        user1 = User.builder()
+                .id(2)
+                .email("user2@email.ru")
+                .name("user2")
+                .login("user2login")
+                .birthday(LocalDate.of(1994, 2, 1))
+                .build();
 
-    User user2 = User.builder()
-            .id(3)
-            .email("user3@email.ru")
-            .name("user3")
-            .login("user3")
-            .birthday(LocalDate.of(1970, 1, 1))
-            .build();
+        user2 = User.builder()
+                .id(3)
+                .email("user3@email.ru")
+                .name("user3")
+                .login("user3")
+                .birthday(LocalDate.of(1970, 1, 1))
+                .build();
+    }
 
-    Mpa mpa1 = Mpa.builder().id(4).build();
     Mpa mpa1Full = Mpa.builder().id(4).name("R").build();
-    Mpa mpa2 = Mpa.builder().id(3).build();
     Mpa mpa2Full = Mpa.builder().id(3).name("PG-13").build();
-
-
 
     Genre genre1 = Genre.builder().id(2).build();
     Genre genre1Full = Genre.builder().id(2).name("Драма").build();
     Genre genre2 = Genre.builder().id(1).build();
     Genre genre2Full = Genre.builder().id(1).name("Комедия").build();
-
 
     Film film = Film.builder()
             .id(1)

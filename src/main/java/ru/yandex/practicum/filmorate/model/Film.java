@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -29,10 +30,8 @@ public class Film {
     @Positive
     private int duration;
 
+    @NotNull
     private Mpa mpa;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Set<Integer> likes;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Genre> genres;

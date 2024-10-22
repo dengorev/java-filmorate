@@ -28,6 +28,9 @@ CREATE TABLE IF NOT EXISTS users (
                         birthday date
 );
 
+create unique index if not exists USER_EMAIL_UINDEX on USERS (email);
+create unique index if not exists USER_LOGIN_UINDEX on USERS (login);
+
 CREATE TABLE IF NOT EXISTS genres (
                         id bigint not null PRIMARY KEY auto_increment,
                         name varchar(255)

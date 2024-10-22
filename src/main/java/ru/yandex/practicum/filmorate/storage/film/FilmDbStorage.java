@@ -65,7 +65,8 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public List<Film> getAll() {
-        String sqlQuery = "SELECT f.id, f.name, f.description, f.releaseDate, f.duration, m.id AS mpa_id, m.name AS mpa_name, g.id AS genre_id, g.name AS genre_name " +
+        String sqlQuery = "SELECT f.id, f.name, f.description, f.releaseDate, f.duration, m.id AS mpa_id," +
+                " m.name AS mpa_name, g.id AS genre_id, g.name AS genre_name " +
                 "FROM films f " +
                 "LEFT JOIN mpa m ON f.mpa_id = m.id " +
                 "LEFT JOIN film_genres fg ON f.id = fg.film_id " +
@@ -76,7 +77,8 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film update(Film film) {
-        String sqlQuery = "UPDATE films SET name = ?, description = ?, releaseDate = ?, duration = ?, mpa_id =? WHERE id = ?";
+        String sqlQuery = "UPDATE films SET name = ?, description = ?, releaseDate = ?, duration = ?," +
+                " mpa_id =? WHERE id = ?";
         jdbcTemplate.update(sqlQuery, film.getName(), film.getDescription(), film.getReleaseDate(), film.getDuration(), film.getMpa().getId(), film.getId());
         genreStorage.setFilmsGenres(film.getId(), film.getGenres());
         return getFilmById(film.getId());
@@ -84,7 +86,8 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film getFilmById(Integer id) {
-        String sqlQuery = "SELECT f.id, f.name, f.description, f.releaseDate, f.duration, m.id AS mpa_id, m.name AS mpa_name, g.id AS genre_id, g.name AS genre_name " +
+        String sqlQuery = "SELECT f.id, f.name, f.description, f.releaseDate, f.duration, m.id AS mpa_id," +
+                " m.name AS mpa_name, g.id AS genre_id, g.name AS genre_name " +
                 "FROM films f " +
                 "LEFT JOIN mpa m ON f.mpa_id = m.id " +
                 "LEFT JOIN film_genres fg ON f.id = fg.film_id " +
