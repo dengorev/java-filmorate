@@ -1,32 +1,34 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Builder
 public class User {
-    private int id;
+    private Integer id;
 
-    private String name;
-
-    @NotEmpty
+    @NotBlank
     @Email(message = "Электронная почта не может быть пустой и должна содержать символ @")
     private String email;
 
+    private String name;
+
     @NotBlank
+    @Pattern(regexp = "^\\S+$")
     private String login;
 
     @PastOrPresent
     private LocalDate birthday;
 
-    private final Set<Integer> friends = new HashSet<>();
+    @JsonIgnore
+    private Set<Integer> friends;
 }
